@@ -89,7 +89,7 @@ DSL은 개인에게 할당된 라인만 사용하는 반면 공유된 케이블�
 ### 1.2.6 무선 네트워크 연결
 - 공유된 무선 네트워크는 라우터와 host을 연결
 
-## 1.2.7 호스트의 데이터 패킷 전송
+### 1.2.7 호스트의 데이터 패킷 전송
 - BandWidth(R) : 단위시간당 보낼 수 있는 데이터의 양
 ```
 packet transmission delay = time needed to transmit L-bit packet into link 
