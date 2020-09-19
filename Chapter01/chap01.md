@@ -102,5 +102,5 @@ packet transmission delay = time needed to transmit L-bit packet into link
 
 ### 1.3.1 The Network Core
 > 서로서로 연결되어 있는 라우터들의 집합체 (mesh of interconnected routers)
-- 
+
 
