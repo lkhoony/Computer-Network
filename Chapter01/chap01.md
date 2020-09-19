@@ -95,3 +95,12 @@ DSL은 개인에게 할당된 라인만 사용하는 반면 공유된 케이블�
 packet transmission delay = time needed to transmit L-bit packet into link 
 = L (bits) / R(bits/sec)
 ```
+
+
+# 1.3 Network Core
+> Packet Switching, Circuit Switching, Network Structure
+
+### 1.3.1 The Network Core
+> 서로서로 연결되어 있는 라우터들의 집합체 (mesh of interconnected routers)
+- 
+
