@@ -102,5 +102,21 @@ packet transmission delay = time needed to transmit L-bit packet into link
 
 ### 1.3.1 The Network Core
 > 서로서로 연결되어 있는 라우터들의 집합체 (mesh of interconnected routers)
+- Packet Switching : 호스트는 Application Layer의 메세지를 여러개의 패킷으로 나누어서 전송함
+- 패킷들을 라우터에서 다음 라우터로 forwarding하는 방식으로 전송 호스트(Source)부터 도착지(Destination)까지의 경로로 전송
+- 각 패킷들은 최대 전송률로 전송됨
 
+### 1.3.2 Packet Switching : Stored-and-Forward
+> Stored and Forward : 다음 링크로 전송되기 전에 전체의 패킷이 라우터에 도착해야됨
+- Source로부터 Destination까지 경로에 하나의 라우터를 거치고 전파지연이 없다고 가정하면 end-end delay는 2L/R
+```
+end-end delay = Source에서 Router로 forward하는 시간(L/R) + Router에서 Destination으로 forward하는 시간(L/R)
+```
 
+### 1.3.3 Packet Switching : Queueing Delay, Loss
+- 만약 라우터에서의 패킷의 도착비율이 전송률을 초과하게 되면 큐에서 전송될 때 까지 메모리 버퍼에서 대기
+- 메모리 버퍼가 꽉 차있다면 패킷을 잃을 수도 있음
+
+### 1.3.4 Two Key Network-Core Functions
+- Routing : 패킷 해더에 저장되어있는 
+- Forwarding : 
