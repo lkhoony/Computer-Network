@@ -157,9 +157,9 @@ TDM : 시간을 나누어 해당 시간에만 회선을 사용하는 것
 - 어떤 노드나 터미널로부터 또 다른 터미널로 전달되는 단위시간 당 데이터의 양
 - Rs bits/s로 전송된 데이터들을 라우터를 거쳐 Rc bits/s로 end point에서 데이터를 받을 경우의 Throughput
 ```
-Rs < Rc : Rs
-Rs > Rc : Rc
-즉 Throughput은 min(Rc,Rs)를 따르게 됨
+- Rs < Rc : Rs
+- Rs > Rc : Rc
+> 즉 Throughput은 min(Rc,Rs)를 따르게 됨
 ```
 
 # 1.5 Protocol Layers, Service Models
