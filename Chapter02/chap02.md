@@ -174,9 +174,9 @@ S: 221 hamburger.edu closing connection
   
 ### 2.4.3. DNS : A Distributed, Hierachical Database
 - 클라이언트가 www.amazon.com의 IP주소를 얻기 위해서는
-    (1) com의 DNS 서버를 찾기 위해 루트(root)서버에 질의
-    (2) amazon.com의 DNS 서버를 찾기 위해 com의 DNS서버 (TLD 서버, Top Level Domain Server)에 질의
-    (3) www.amazon.com의 IP 주소를 얻기 위해 amazon.com의 DNS 서버(책임 서버, Authoritative Server)에 질의
+    - com의 DNS 서버를 찾기 위해 루트(root)서버에 질의
+    - amazon.com의 DNS 서버를 찾기 위해 com의 DNS서버 (TLD 서버, Top Level Domain Server)에 질의
+    - www.amazon.com의 IP 주소를 얻기 위해 amazon.com의 DNS 서버(책임 서버, Authoritative Server)에 질의
 
 ### 2.4.4. DNS : Root Name Servers
 - local name server에서 도메인 이름이 매핑되지 않은 경우에 의해 연결됨
