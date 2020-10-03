@@ -56,7 +56,8 @@
 ```
 
 ### 2.1.7 Socket 
-> 어플리케이션 레이어에서 실행되는 프로세스는 다른 프로세스와 소켓이라는 문으로 메세지를 주고 받게 됨
+> 어플리케이션 레이어에서 실행되는 프로세스는 다른 프로세스와 소켓이라는 문으로 메세지를 주고 받게 됨 즉, 호스트의 Application Layer와 Transport Layer간의 Interface(API)
+
 - 소켓은 프로세스가 네트워크를 통해서 메세지를 주고 받기 위해서 열어야 하는 문과 같은 것이다.
 - 호스트에서 동작하는 프로세스가 다른 호스트의 프로세스와 메세지를 보내고 받는 과정은 이들의 소켓으로 주고 받음
 - 전송 프로세스는 수신 프로세스의 소켓에 메세지를 반대편의 문(socket)에 전달하는 전송층의 하부구조에 의존함 
@@ -75,7 +76,158 @@
 
 ### 2.1.9 App-layer Protocol Defines
 > 어플리케이션 레이어에서 사용하는 프로토콜에 포함되는 내용을 알아보자
-- 
+- 교환되는 메세지의 타입 (Types of Messages Exchanged)
+- 메세지 타입의 문법 (Message Syntax)
+- 메세지의 의미 (Message Semantics)
+- 언제, 어떻게 메세지를 전송하고 응답하는지를 결정하는 규칙(Rules)
+
+## 2.2. Web and HTTP
+
+### 2.2.1. Http Overview
+> HTTP (HyperText Transfer Protocol)
+
+- 웹의 application 계층의 프로토콜
+
+- Server-Client 모델로 작동
+  - Client : HTTP 프로토콜을 사용하여 웹 객체들을 요청하여 화면에 보여주는 브라우저
+  - Server : 요청에 대한 웹 객체들을 전송하는 웹 서버
+  
+- TCP를 이용하는 프로토콜
+  - client는 80번(HTTP에 지정된 port번호) port로 server에게 연결을 요청
+  - server는 client의 요청을 수락
+  - browser(http client)와 web server(HTTP server) 사이에 HTTP message를 교환
+  - 연결을 종료한다.
+
+- HTTP에서는 상태 유지를 관리하는 것은 복잡하기 때문에 과거 요청에 대한 정보를 유지하지 않음
+
+### 2.2.2. HTTP Connection
+
+- Non-Persistent HTTP
+  - 각각의 Object마다 하나의 TCP Connection을 사용
+  - 여러 Object를 다운로드 하려면 여려 연결이 필요하여 Memory의 사용률을 높이고 Resource를 많이 소비
+  
+- Persistent HTTP
+  - 클라이언트, 서버 간 단일 TCP 연결을 통해 여러 Object를 전송할 수 있음
+  
+### 2.2.3. Non-Persistent Http 
+
+- Client는 Server에 TCP 연결을 시도
+  - 3-Way-Handshaking 발생 ( SYN(Client) - ACK+SYN(Server) - ACK(Client) )
+  
+- Client는 Socket을 통해서 Request Message를 보냄
+
+- Server는 Client에게 요청받은 Message에 해당하는 Object가 포함된 Reponse Message 전송
+
+- Cliet는 Response Message를 처리하여 Web Browser에 출력
+
+- Client와 Server의 TCP연결 종료
+
+- Object 수 만큼 반복
+
+### 2.2.4. Non-Persistent HTTP : Response Time
+
+- RTT(Round Trip Time) : Client에서 송신된 작은 패킷이 Server까지 간 후 다시 Client로 되돌아 오는데 걸린 시간
+
+- HTTP Response Time (HTML 파일 요청 응답시간)
+  - TCP 연결을 초기화 하기 위한 1 RTT
+  - HTTP요청을 하고 HTTP 응답을 받기 위해 필요한 1 RTT
+  - 파일 전송시간
+  
+- 즉 Response Time = 2RTT + File Transmit Time
+
+### 2.2.5. Persistent HTTP
+
+- 한 번의 TCP 연결을 통해 여러 Obejct를 주고 받음
+
+- 응답을 한 이후에도 연결상태 유지하여 이후의 HTTP 요청, 응답도 동일 연결에서 통신
+
+- 객체를 참조하자 마자 요청을 송신하여 모든 참조 객체들에 대해 1 RTT만 필요
+
+### 2.2.6. HTTP Request Message
+- HTTP Request Header
+```
+GET /index.html HTTP/1.1\r\n
+Host: www-net.cs.umass.edu\r\n
+User-Agent: Firefox/3.6.10\r\n
+Accept: text/html,application/xhtml+xml\r\n
+Accept-Language: en-us,en;q=0.5\r\n
+Accept-Encoding: gzip,deflate\r\n
+Accept-Charset: ISO-8859-1,utf-8;q=0.7\r\n
+Keep-Alive: 115\r\n
+Connection: keep-alive\r\n
+\r\n
+```
+- POST Method 
+  - 사용자의 입력 값을 요청의 body에 담아 서버에 전송하는 방식
+  
+- GET Method
+  - 사용자의 입력 값을 URL에 포함시켜 서버에 전송하는 방식
+  
+### 2.2.7. HTTP Response Message
+- HTTP Response Header
+```
+HTTP/1.1 200 OK\r\n
+Date: Sun, 26 Sep 2010 20:09:20 GMT\r\n
+Server: Apache/2.0.52 (CentOS)\r\n
+Last-Modified: Tue, 30 Oct 2007 17:00:02
+GMT\r\n
+ETag: "17dc6-a5c-bf716880"\r\n
+Accept-Ranges: bytes\r\n
+Content-Length: 2652\r\n
+Keep-Alive: timeout=10, max=100\r\n
+Connection: Keep-Alive\r\n
+Content-Type: text/html; charset=ISO-8859-
+1\r\n
+\r\n
+data data data data data ... 
+```
+
+- HTTP Response Status Codes
+
+  - 200 OK : request succeeded, requested object later in this msg
+  
+  - 301 Moved Permanently : requested object moved, new location specified later in this msg
+  
+  - 400 Bad Request : request msg not understood by server
+  
+  - 404 Not Found : requested document not found on this server
+  
+  - 505 HTTP Version Not Supported
+
+### 2.2.8. User-Server State : Cookies
+
+- 대부분의 웹 사이트들은 쿠키를 이용하여 사용자의 state를 추적하고 유지
+
+- 4가지 구성요소
+  - HTTP response message의 cookie header-line
+  - HTTP request message의 cookie header-line
+  - user's host에 저장되어 관리되는 cookie file
+  - web-site의 back-end database 
+
+- 어떻게 state를 유지하는지?
+  - protocol endpoints: 여러 트랜잭션에서 송/수신자 상태를 유지
+  - cookies: http 메시지는 state를 나타낸다(carry)
+  
+### 2.2.9. Web Caches (Proxy Server)
+> orgin server 없이 클라이언트의 요청을 충족
+
+- 클라이언트가 자신을 통해서 다른 네트워크 서비스에 간접적으로 접속할 수 있게 해주는 서버를 Proxy Server라고 함
+
+- 서버와 클라이언트 사이에서 중계기로써 통신을 수행하는 기능을 가르켜 proxy라고 함
+
+- 브라우저는 모든 HTTP 요청을 캐시로 보냄
+  - 캐시는 요청한 객체를 반환
+  - 그렇지 않으면 origin 서버에 객체를 요청한 다음 객체를 클라이언트에게 반환
+  - 이후 같은 요청이 들어오면 orgin 서버에 요청할 필요 없이 proxy 서버에서 바로 응답
+  
+### 2.2.10. More about Web Caching
+
+- 캐시는 클라이언트와 서버로 작동
+
+- 일반적으로 캐시는 ISP(대학, 회사, 가정용 ISP)에 의해 설치됨
+
+- 캐시를 사용함으로써 클라이언트 요청에 대한 응답 시간을 줄이고 트래픽을 줄임
+
 
 ## 2.3. Electronic Mail
 - Three Major Component
