@@ -444,3 +444,52 @@ Dp2p > max{ F/Us, F/dmin, N*F/(Us + ∑Ui) }
    - 현재 가장 속도가 빠른 4개의 이웃들에게 청크들을 보냄(매 10초마다 가장 빠른 4개의 피어 다시 선택)
 
    - 매 30초마다 임의로 하나의 피어를 추가 선택하여 청크를 보냄(새롭게 선택된 피어가 가장 빠른 4개의 피어일 수 있음. 모든 이웃이 소외되지 않고 낙관적으로 중단 없는 전송(optimistically unchoke)
+
+## 2.6. Video Streaming and CDNs : Context
+
+- 영상 콘텐츠의 트래픽에 대한 수요가 많아지면서 많은 사람이 동영상 스트리밍 서버를 이용할 경우에 잘 작동할 지에 대한 문제 인식
+
+- 분산된 어플리케이션 계층의 infrastructure를 정의하여 부하를 분산하는 것으로 해결
+
+### 2.6.1. Streaming Multimedia : DASH
+
+- Server
+
+  - 동영상 파일을 여러 chunks로 나눔
+  
+  - 각각의 chunk를 저장하고 다른 rate로 인코딩
+  
+  - manifest file로써 각각의 다른 chunk에 대한 URL을 제공
+
+- Client 
+
+  - 주기적으로 서버와 클라이언트 간 bandwidth를 측정
+  
+  - manifest를 확인하며 동시에 하나의 chunk를 요청
+  
+    - 현재 bandwidth에서 지속 가능한 최대 코딩속도를 선택
+    - 다른 시점에서 다른 코딩 속도를 선택해도 됨
+    
+- DASH에서 Client는 상황에 맞게 지능적인 선택을 가능하게 함
+  
+  - 언제 chunk를 요청할 지
+  - 요청할 때 어떤 인코딩 rate를 사용할 지 ( bandwidth를 더 사용할 수 있을 때 최고의 품질로 요청 ) 
+  - 어디서 chunk를 요청할 지 ( 가장 가까운 URL 서버 혹은 bandwidth를 가장 많이 사용할 수 있는 서버 )
+  
+### 2.6.2. Content Distribution Networks (CDNs)
+
+- CDN : CDN node들에 콘텐츠들에 대한 복사본을 저장
+
+- 구독자는 CDN에 콘텐츠를 요청
+
+  - 근처의 CDN으로 이동하여 콘텐츠를 검색
+  
+  - 네트워크 경로가 혼잡한 경우에는 다른 복사본을 선택
+  
+### 2.6.3. Case Study : Netflix
+
+- Bob은 넷플릭스에 영상을 요청
+
+- 해당 요청에 대한 manifest 파일을 리턴
+
+- 해당 URL으로 부터 DASH Streaming
