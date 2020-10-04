@@ -364,3 +364,83 @@ S: 221 hamburger.edu closing connection
 - 캐싱된 정보는 일정 시간이 지나면 소멸
 - 일반적으로 로컬 DNS 서버에 TLD 서버들이 캐싱. 따라서 루트 DNS 서버는 자주 방문하지 않음 
 
+## 2.5. P2P Applications
+
+### 2.5.1. Pure P2P Architecture
+
+- 서버가 항상 온라인인 것은 아님
+
+- 임의의 end systems이 직접 통신함
+
+- peer가 간헐적으로 연결되고 IP 주소를 변경함
+
+### 2.5.2. File Distribution : Client-Server vs P2P
+> 하나의 서버가 N명의 peers에게 사이즈가 F인 파일을 분배하는 데 걸리는 시간을 알아보자
+
+### 2.5.3. File Distribution : Client-Server
+
+- Server Transmission : N개의 파일 사본을 순차적으로 전송 해야함
+  
+  - 하나의 복사본을 보내는데 걸리는 시간 : F/Us
+  
+  - N개의 복사본을 보내는데 걸리는 시간 : N * F/Us
+  
+- Client : 각 클라이언트들은 파일 사본을 다운로드 함
+
+  - dmin : 여러 클라이언트 중 가장 느린 다운로드 속도(min client download rate)
+  
+  - 가장 느린 다운로드 속도를 가진 클라이언트가 파일을 다운로드 받는 시간 : F/dmin
+  
+- 사이즈가 F인 파일을 N명의 클라이언트에게 분배하는데 걸리는 시간 : Dc-s
+
+```
+Dc-s > max{ N*F/Us, F/dmin } ( N이 증가함에 따라 선형적으로 증가 )
+```
+
+### 2.5.4. File Distribution : P2P
+
+- Server Transmission : 최소한 하나의 사본을 업로드 해야함
+  
+  - 하나의 복사본을 보내는데 걸리는 시간 : F/Us
+  
+- Client : 각 클라이언트들은 파일 사본을 반드시 다운로드 함
+
+  - dmin : 여러 클라이언트 중 가장 느린 다운로드 속도(min client download rate)
+  
+  - 가장 느린 다운로드 속도를 가진 클라이언트가 파일을 다운로드 받는 시간 : F/dmin
+  
+- Clients : N명의 집합체(peers)가 N*F bits를 다운로드 해야함
+
+  - 최대 업로드 속도(최대 업로드 속도로 제한했을 경우 ) Us + ∑Ui
+
+- 사이즈가 F인 파일을 N명의 클라이언트에게 P2P를 방식으로 분배하는데 걸리는 시간 : Dp2p
+
+```
+Dp2p > max{ F/Us, F/dmin, N*F/(Us + ∑Ui) } 
+```
+
+- 즉, server-client는 N개의 파일을 올릴 때, 서버가 순차적으로(capacity만큼씩) 다 올려야하고, P2P에서는 peers들이 1개 이상씩 올려서 N개가 되면 되니까, P2P의 file distribution time이 더 짧음
+
+### 2.5.5. P2P File Distribution : BitTorrent
+
+- 토렌트에 가입(joining)하는 피어 : 처음에는 청크(chunk)가 없지만 시간이 지남에 따라 청크들이 누적됨. 트래커로부터 피어들의 리스트를 얻어서, 이들 중 일부와 연결
+
+- 청크를 다운로드하는 동안에 다른 피어들에게 업로드
+
+- 전체 파일을 얻은 후 토렌트를 (이기적으로) 떠나거나 또는 (이타적으로) 남을 수 있음
+
+### 2.5.6. BitTorrent : Requesting, Sending File Chunks
+
+- 청크 가져오기(Pulling Chunks)
+
+   - 임의의 주어진 시간에 서로 다른 피어들이 파일의 서로 다른 청크들을 가지고 있음
+
+   - 주기적으로 한 피어는 이웃 피어들에게 각자 가지고 있는 청크의 리스트를 요청
+
+   - 이웃들이 가지고 있는 복사본 중 가장 드문 것을 먼저(rarest first) 요청
+
+- 청크 보내기 : 되갚음 (tit-for-tat)
+
+   - 현재 가장 속도가 빠른 4개의 이웃들에게 청크들을 보냄(매 10초마다 가장 빠른 4개의 피어 다시 선택)
+
+   - 매 30초마다 임의로 하나의 피어를 추가 선택하여 청크를 보냄(새롭게 선택된 피어가 가장 빠른 4개의 피어일 수 있음. 모든 이웃이 소외되지 않고 낙관적으로 중단 없는 전송(optimistically unchoke)
