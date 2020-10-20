@@ -177,6 +177,18 @@ TDM : 시간을 나누어 해당 시간에만 회선을 사용하는 것
 - Link : 네트워크 요소들에 데이터를 전송
 - Physical : 실제 물리적 와이어에 비트를 전송
 
+### 1.5.3 ISO/OSI Reference Model
+- Application : 네트워크 어플리케이션들을 지원(FTP, SMTP, HTTP)
+- Presentation : 운영체계의 한 부분으로 입력 또는 출력되는 데이터를 하나의 표현 형태로 변환한다. (JPEG, MPEG)
+- Session : 응용프로그램간 대화를 유지하기위한 구조제공, 사용자간의 포트연결(세션)이 유효한지 확인하고 설정 (SSL/TLS)
+```
+SSL : 웹 서버간의 안전한 데이터 전송을 위해 고안된 프로토콜
+```
+- Transport : 호스트의 프로세스들을 연결 (TCP, UDP)
+- Network : 데이터를 목적지로 라우팅 (IP, Routing Protocols)
+- Link : 네트워크 요소들에 데이터를 전송
+- Physical : 실제 물리적 와이어에 비트를 전송
+
 # 1.6 Networks Under Attack : Security
 > Network Security는 처음에는 고려되어 설계되지 않았지만 현재는 모든 레이어에서 고려되어야 함
 
