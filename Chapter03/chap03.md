@@ -1,34 +1,71 @@
-# Chapter 2. Application Layer
-> - 어플리케이션 프로토콜의 개념적, 구현적 측면 알아보기
-> - 많이 사용되는 어플리케이션 단계의 프로토콜을 조사함으로써 프로토콜 학습
+# Chapter 3. Transport Layer
+> - 전송 계층에서 제공하는 서비스 유형에 대한 이해
+> - 전송 계층에서 사용되는 프로토콜에 대한 학습
 
 ## Outline
-- Principles of Network Application
-- Web and HTTP
-- Electronic Mail
-- DNS
-- P2P Application
-- Video Streaming and Content Distribution Networks
-- Socket Programming with UDP and TCP
+- Transprot Layer Services
+- Multiplexing and Demultiplexing
+- Connectionless Transport : UDP
+- Principles of Reliable Data Transfer
+- Connection-Oriented Transport : TCP
+- Principles of Congestion Control
+- TCP Congestion Control
 
-## 2.1 Principles of Network Application
-> 네트워크 어플리케이션의 유형을 알아보자
+## 3.1 Transport Layer Services
+> 전송 계층에서 제공하는 서비스들에 대해 알아보기
 
-### 2.1.1 Some Network Apps
-```
-예 : e-mail, web, text messaging, remote login, P2P file sharing, multi-user network games, ...
-```
+### 3.1.1 Transport Services and Protocols
 
-### 2.1.2 Creating a Network App
-- 네트워크 어플리케이션은 각각 다른 end system에서 실행되며 네트워크 위에서 상호작용함
-```
-예 : 웹 서버 소프트웨어는 다른 end system의 브라우저 소프트웨어와 상호작용
-```
-- 네트워크 코어 디바이스는 유저 어플리케이션을 실행하지 않기 때문에 이를 위한 프로그램을 작성할 필요는 없음
+- 각각 다른 호스트들에서 실행되는 프로세스 앱들 사이의 논리적 연결을 제공함
 
-### 2.1.3 Application Architectures
-- Client-Server Architecture
-- Peer-to-Peer (P2P)
+- 각 종단 시스템에서 전송 계층 프로토콜이 실행됨
+
+  - 송신 측 : 어플리케이션 계층에서 보내는 메세지를 세그먼트로 나누어 네트워크 계층으로 전송
+  
+  - 수신 측 : 세그먼트들을 조합해서 어플리케이션 계층으로 메세지를 전송
+  
+### 3.1.2 Transport vs. Network Layer
+
+- Network Layer : 호스트들 간의 논리적 연결
+
+- Transport Layer : 호스트에서 실행되는 프로세스간의 논리적 연결
+
+### 3.1.3 Internet Transport Layer Protocols
+
+- IP (Internet Protocol) : 네트워크 계층에서 사용되는 프로토콜
+
+  - IP 서비스 모델은 호스트들 간에 논리적 통신을 제공하는 best-effort delivery service
+
+  - 이것은 IP가 통신하는 호스트들 간에 세그먼트를 전달하기 위해 최대한 노력하지만, 어떤 보장도 하지 않는다는 것을 의미
+  
+  - IP는 세그먼트가 전달되는지, 순서대로 전달되는지 그리고 데이터의 무결성을 보장하지 않기 때문에 IP를 __비신뢰적인 서비스(unreliable service)__ 라고 부른다.
+
+- UDP : 비신뢰적 순서가 없는 전송
+
+  - 프로세스 대 프로세스 데이터 전달
+  
+  - 오류 검출
+  
+- TCP : 신뢰 가능한 순서가 있는 전송
+
+  - UDP가 제공하는 서비스 + reliable data transfer
+  
+  - 혼잡 제어 (congestion control)
+  
+  - 연결 설정 (connection setup)
+  
+  - 흐름 제어 (flow control)
+  
+  
+## 3.2 Multiplexing and Demultiplexing
+
+> 전송 계층에서의 다중화(Multiplexing)과 역다중화(Demultiplexing) 과정 알아보기
+
+
+### 3.2.1 Multiplexing/Demultiplexing
+
+- 전송 측에서의 다중화 (Multiplexing at sender)
+
 
 ### 2.1.4 Client-Server Architecture
 - Server 
