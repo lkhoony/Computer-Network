@@ -78,7 +78,7 @@
 
   - 세그먼트의 데이터를 헤더 정보를 사용해서 올바른 소켓으로 전달하는 작업을 __역다중화(Demultiplexing)__ 라고 함
   
-### 3.2.2 How Demultiplexing Works
+### 3.2.2 How Demultiplexing Works?
 
 - 호스트는 IP Datagrams를 수신 받음
 
@@ -102,8 +102,25 @@
 
 - Datagrams를 생성하여 UDP 소켓으로 데이터를 전달하기 위해서는 도착지 IP와 도착지의 Port Number가 필요하다.
 
-- UDP 연결에서 같은 도착지의 Port Number 
+- UDP 연결의 IP 데이터그램에서 같은 수신지의 Port Number는 송신지의 정보가 다른 IP와 Port Number라 할지라도 같은 수신지의 소켓으로 전송됨
 
+### 3.2.4 Connection Oriented Demultiplexing
 
+- TCP 소켓은 송신지 IP와 Port Number, 수신지 IP와 Port Number로 정의가 됨
 
+- 송신지는 네 개의 값들을 모두 사용하여 세그먼트가 전송되어야 하는 소켓에 전송
 
+- 서버 호스트는 동시에 실행되는 TCP 소켓들을 지원해야 함
+
+- 웹 서버는 클라이언트 각각의 연결에 대해 다른 소켓을 갖고 있다.
+
+## 3.3. Connectionless Transport : UDP
+> UDP : User Datagram Protocol
+
+- 비연결 지향 : handshaking 과정이 불필요
+
+- UDP 세그먼트는 다른 세그먼트들에 독립적으로 처리됨
+
+### 3.3.1 UDP : Segment Header
+
+- 
