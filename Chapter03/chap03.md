@@ -147,10 +147,25 @@
   
 ## 3.4. Principles of Reliable Data Transfer
 
-- 어플리케이션 계층에서 __신뢰 가능한 채널(reliable channel)인 전송 계층으로 데이터를 세그먼트화 하여 전달
+- 어플리케이션 계층에서 __신뢰 가능한 채널(reliable channel)인 전송 계층으로 데이터를 세그먼트화 하여 전달__
 
 - 전송 계층에서는 이를 패킷화 하여 __비신뢰적 채널(unreliable channel)인 네트워크 계층__ 으로 전달
 
 ### 3.4.1 Reliable Data Transfer : Getting Started
 
-- 
+![image](https://user-images.githubusercontent.com/66773320/96840558-93ee3580-1485-11eb-8dda-ff1ad29dd91b.png)
+
+- rdt_send() : 어플리케이션 계층에서 전송 계층(reliable channel)으로 데이터를 세그먼트화 하여 전달하는 과정
+
+- udt_send() : 전송 계층에서 네트워크 계층(unreliable channel)으로 데이터를 패킷화 하여 전송하는 과정
+
+- rdt_rcv() : 패킷이 수신측에 도착하면 네트워크 계층에서 전송 계층으로 전달하는 과정
+
+- deliver_data() : 전송 계층에서 어플리케이션 계층으로 세그먼트를 다시 조립하여 전달하는 과정
+
+### 3.4.2. rdt1.0 : Reliable Transfer Over a Reliable Channel
+> 완벽하게 신뢰적인 채널 상에서의 신뢰적인 데이터 전송
+
+- 비트 오류와 패킷 손실이 없는 채널 상에서의 데이터 전송
+
+
