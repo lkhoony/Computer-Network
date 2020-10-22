@@ -306,5 +306,20 @@ __- Selective Repeat__
 
 ![image](https://user-images.githubusercontent.com/66773320/96850775-2a285880-1492-11eb-85e9-6875df04f81d.png)
 
+- GBN 작동 순서
+
+  1. 설정된 전송 측의 window size(N=4)만큼 순서대로 패킷을 전송
+
+  2. sequence number가 0,1인 패킷은 수신측이 제대로 받았다는 ACK메세지를 각각 전송
+
+  3. sequence number가 2인 패킷을 전송측은 전송 하였지만 손실이 발생
+
+  4. 이후 수신 측에서는 sequence number가 3인 패킷을 받았지만 sequence number가 2인 패킷을 아직 받지 못하였기 때문에 제일 마지막으로 받은 패킷에 대한 ACK메세지(ACK1)을 전송
+
+  5. 전송 측은 0,1 패킷에 대한 ACK메세지를 받은 후 sliding window를 두 칸 이동하여 4,5번 패킷을 전송 (window size를 4로 유지)
+
+  6. 수신 측은 2번째 패킷을 아직 못받았기 때문에 3,4,5번째 패킷을 폐기하고 ACK1을 다시 보냄
+
+  7. 송신 측의 2번째 패킷에 대한 timeout이 발생하면 가장 오래된 ACK를 받지 못한 패킷부터 window size 만큼의 패킷을 다시 전송
 
 - 
