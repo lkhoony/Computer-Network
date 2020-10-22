@@ -251,7 +251,24 @@
 
 - rdt3.0은 정확한 프로토콜이지만 오늘날의 고속 네트워크에서 만족스러운 성능을 기대하기 힘듦
 
+![image](https://user-images.githubusercontent.com/66773320/96847123-c56aff00-148d-11eb-8619-786a8e464bb7.png)
+
+- __RTT (Round Trip Time)__ : 패킷이 송신지에서 수식지로 전송되고 ACK가 수신지에서 송신지로 돌아오는데 걸리는 시간
+
+- 8000bit의 패킷을 1 Gbps link로 보내는 시간 
+```
+D = L/R = 8000bits/10^9bits/sec = 8usec
+```
+
+- 이용률(Utilization) : 전체 전송 시간동안 실제로 데이터를 전송한 시간
+```
+U = (L/R) / (RTT + L/R) = 0.008 / 30.003 = 0.00027
+```
+
+- 이용률을 따져보면 30.008msec동안 송신 측은 0.008msec동안만 실제로 데이터를 전송한 것이고 __이는 아주 형편없는 이용률__
+
+
+### 3.4.8. Pipelined Protocols
+
 - 
 
-
-  
