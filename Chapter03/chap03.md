@@ -166,6 +166,83 @@
 ### 3.4.2. rdt1.0 : Reliable Transfer Over a Reliable Channel
 > 완벽하게 신뢰적인 채널 상에서의 신뢰적인 데이터 전송
 
+
+![image](https://user-images.githubusercontent.com/66773320/96841577-eaa83f00-1486-11eb-9ac7-56ae37e3b693.png)
+
 - 비트 오류와 패킷 손실이 없는 채널 상에서의 데이터 전송
 
+- 비트 오류와 패킷 손실이 없기 때문에 어떠한 피드백도 제공할 필요가 없음
 
+- 송신 측
+  
+  - rdt_send(data) : 이벤트에 의해 상위 계층으로부터 데이터를 받음
+
+  - packet = make_pkt(data) : 이벤트에 의해 데이터를 포함하는 패킷을 생성
+  
+  - udt_send(packet) : 이벤트에 의해 패킷을 네트워크 계층으로 내려보내며 송신
+  
+- 수신 측
+
+  - rdt_rcv(packet) : 이벤트에 의해 하위 채널로부터 패킷을 수신
+  
+  - extract(packet,data) : 이벤트에 의해 패킷으로부터 데이터를 추출
+  
+  - deliver_data(data) : 이벤트에 의해 데이터를 전송 계층으로 전달
+  
+### 3.4.3. rdt2.0 : Channel with Bit Errors
+> 패킷 손실은 없고 패킷 안의 비트들이 하위 채널에서 손상되는 모델
+
+![image](https://user-images.githubusercontent.com/66773320/96841677-0b709480-1487-11eb-82d4-82fb3385dfb8.png)
+
+- ARQ(Automatic Repeat Request) 프로토콜 : 재전송을 기반으로 하는 신뢰적인 프로토콜
+
+  - Acknowledgement(ACKs) : 수신지가 패킷을 잘 받았고 에러가 없다는 메세지로 송신지에 피드백
+  
+  - Negative Acknowledgements(NAKs) : 수신자가 패킷을 받았지만 패킷에 에러가 있다고 송신지로 피드백
+
+  - 송신지가 NAK 메세지를 받으면 패킷을 재전송
+  
+- 2.0 모델에서는 송신지가 수신지에서 일어나는 일을 전혀 모름
+
+  - 수신지에서 ACK 메세지를 보냈는데 이것이 손실되면 송신지는 해당 패킷을 다시 한번 보냄
+  
+  - 수신지는 해당 패킷에 대한 __ACK를 보냈지만 동일한 패킷을 받는 경우가 발생하게 됨__
+  
+  - 중복 패킷에 대한 관리가 필요함
+  
+### 3.4.4. rdt2.1 : Sender, Handels Garbled ACK/NAKs
+> rdt2.0에서 패킷에 대한 순서번호(Sequence Number)를 추가한 모델
+
+#### rdt 2.1 Sender
+
+![image](https://user-images.githubusercontent.com/66773320/96841742-1e836480-1487-11eb-8390-eebc12fa84b5.png)
+
+#### rdt 2.1 Receiver
+
+![image](https://user-images.githubusercontent.com/66773320/96841883-4d99d600-1487-11eb-97de-e0bce3ea0ca8.png)
+
+- 송신 측은 0과 1을 Sequence Number로 사용하고 수신 측에서는 0과 1로 중복 패킷인지 여부를 결정
+
+- 송신 측이 Sequence Number 0의 패킷을 보내면 0번에 대한 ACK/NAK을 기다림
+
+- 수신 측은 패킷을 잘 수신한 경우 ACK 메세지를 보내며 Sequence Number 1의 패킷이 수신되기를 기다림
+
+- 송신 측은 ACK를 받으면 Sequence Number 1의 패킷을 보내고 NAK를 받거나 피드백 패킷에 오류가 있을 경우 Sequence Number 0의 패킷을 재전송
+
+- 수신 측이 Sequence Number 1의 패킷을 기다리고 있는데 Sequence Number 0의 패킷이 도착한다면 __해당 패킷이 중복 도착했으므로 중간에 문제가 생겼음을 알고 Sequence Number 0에 대한 ACK를 전송__
+
+### 3.4.5. rdt 2.2 : A NAK-Free Protocol
+> rdt2.1과 동일하지만 NAK를 사용하지 않고 ACK만 사용하는 모델
+
+![image](https://user-images.githubusercontent.com/66773320/96841948-61453c80-1487-11eb-97e2-5290660823a7.png)
+
+### 3.4.6. rdt 3.0 : Channels With Errors and Loss
+> 비트 오류와 패킷 손실이 모두 존재하는 모델
+
+- 패킷 손실의 검출을 Timer로 고려함
+
+  - ACK 메세지가 Timer에 의해 __설정된 시간안에 수신되지 않는다면 패킷 손실이 일어났을 가능성이 있기 때문에 패킷을 재전송__
+  
+
+
+  
