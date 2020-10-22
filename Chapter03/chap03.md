@@ -242,7 +242,16 @@
 - 패킷 손실의 검출을 Timer로 고려함
 
   - ACK 메세지가 Timer에 의해 __설정된 시간안에 수신되지 않는다면 패킷 손실이 일어났을 가능성이 있기 때문에 패킷을 재전송__
-  
+
+![image](https://user-images.githubusercontent.com/66773320/96846554-0878a280-148d-11eb-9f8f-f8c310fa809b.png)
+
+![image](https://user-images.githubusercontent.com/66773320/96846653-28a86180-148d-11eb-89e6-3b7e49bcb6e7.png)
+
+### 3.4.7. Performance of rdt3.0
+
+- rdt3.0은 정확한 프로토콜이지만 오늘날의 고속 네트워크에서 만족스러운 성능을 기대하기 힘듦
+
+- 
 
 
   
