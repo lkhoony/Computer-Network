@@ -322,4 +322,7 @@ __- Selective Repeat__
 
   7. 송신 측의 2번째 패킷에 대한 timeout이 발생하면 가장 오래된 ACK를 받지 못한 패킷부터 window size 만큼의 패킷을 다시 전송
 
+
+![image](https://user-images.githubusercontent.com/66773320/96853822-c738c080-1495-11eb-8f78-59b558408555.png)
+
 - 
