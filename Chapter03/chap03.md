@@ -304,4 +304,7 @@ __- Selective Repeat__
   
 ### 3.4.10. GBN in Action
 
+![image](https://user-images.githubusercontent.com/66773320/96850775-2a285880-1492-11eb-85e9-6875df04f81d.png)
 
+
+- 
