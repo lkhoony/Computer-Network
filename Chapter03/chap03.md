@@ -143,4 +143,14 @@
   
   - 그리고 오버플로되서 캐리된 값들을 다시 더하고 1의 보수를 취하여 이렇게해서 나온 값을 체크섬 값으로 사용함
   
+  ![image](https://user-images.githubusercontent.com/66773320/96839217-d44cb400-1483-11eb-8d9e-c09513f2c813.png)
   
+## 3.4. Principles of Reliable Data Transfer
+
+- 어플리케이션 계층에서 __신뢰 가능한 채널(reliable channel)인 전송 계층으로 데이터를 세그먼트화 하여 전달
+
+- 전송 계층에서는 이를 패킷화 하여 __비신뢰적 채널(unreliable channel)인 네트워크 계층__ 으로 전달
+
+### 3.4.1 Reliable Data Transfer : Getting Started
+
+- 
