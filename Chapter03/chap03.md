@@ -269,6 +269,19 @@ U = (L/R) / (RTT + L/R) = 0.008 / 30.003 = 0.00027
 
 
 ### 3.4.8. Pipelined Protocols
+> ACK를 기다리지 않고 여러 패킷을 전송하도록 허용하는 프로토콜
 
-- 
+![image](https://user-images.githubusercontent.com/66773320/96848890-ecc2cb80-148f-11eb-9858-75afac3b84d1.png)
 
+- 패킷을 파이프라인에 채워넣음으로써 이용률을 높이게 됨
+```
+U = 3 * (L/R) / (RTT + L/R) = 0.008 / 30.003 = 0.00081 (송신자의 이용률이 3배 증가)
+```
+
+- pipelined protocol을 사용하려면 __sequence number의 범위가 증가__ 하고 여러 패킷 이상을 담을 수 있는 __버퍼가 필요__ 해졌으며 파이프라인에서의 __패킷 손실과 지연 패킷에 대한 처리방식이 필요해짐__
+
+### 3.4.9. Pipelined Protocols : Overview
+
+- Go-back-N
+
+  - 
