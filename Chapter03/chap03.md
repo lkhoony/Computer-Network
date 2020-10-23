@@ -412,7 +412,7 @@ __Selective Repeat__
 
 #### 3.5.3. TCP Seq. Numbers, ACKs
 
-- Sequence Number
+__Sequence Number__
 
   - Sequence number의 관점은 전송된 byte의 stream으로 봄
 
@@ -420,7 +420,7 @@ __Selective Repeat__
 
   - 첫 번째 segment는 sequence number 0, 두 번째 segment는 sequence number 1000을 받을 것임
   
-- Acknowledgement Number
+__Acknowledgement Number__
 
   - TCP가 full duplex라는 점에서 전송 측에서 데이터를 보내는 와중에 데이터를 받을 수 있음
   
@@ -428,4 +428,31 @@ __Selective Repeat__
 
   - 전송 측이 segment에 넣은 acknowledgement number는 전송 측이 수신 측으로부터 기대하는 다음 byte의 sequence number가 됨
   
+![image](https://user-images.githubusercontent.com/66773320/96973070-5dcab780-1552-11eb-9f71-b1be6ac5e24f.png)
+
+#### 3.5.3. TCP Round Trip Time, Timeout
+
+- TCP Timeout 시간을 어떻게 적절하게 설정하는지?
+
+  - RTT 시간보다는 길게 해야하지만 너무 짧으면 불필요한 재전송이 많고 너무 길면 segment 손실에 대한 반응이 너무 느림
+  
+#### 3.5.4. TCP Reliable Data Transfer
+
+- TCP는 네트워크 계층의 비신뢰적 서비스 위에서 신뢰적 서비스들을 사용하여 데이터를 전달
+
+  - 파이프라인 세그먼트
+  
+  - 누적 ACK
+  
+  - 각각의 세그먼트들의 재전송 타이머 관리
+  
+- 재전송 과정은 아래의 서비스들로 부터 일어남
+
+  - timeout event
+  
+  - ack의 중복 
+  
+#### 3.5.5. TCP : Retransmission Scenarios
+
+
 
