@@ -609,7 +609,7 @@ __가장 현실적인 상황__
 
 ## 3.7. TCP Congestion Control
  
-## 3.7.1. TCP Congestion Control : Additive Increase Multiplicative Descrease(AIMD)
+### 3.7.1. TCP Congestion Control : Additive Increase Multiplicative Descrease(AIMD)
 
 - 혼잡 윈도우 크기(Congestion Window Size, cwnd) : 수신 측의 윈도우 크기에 영향을 받으며 송신 측에 존재하는 윈도우 크기
 
@@ -625,8 +625,56 @@ __승법적 감소(Multiplicative Decrease)__
 
 - 손실이 발생한 후에 cwnd를 절반으로 감소시킴
 
+![image](https://user-images.githubusercontent.com/66773320/97006780-510e8980-157b-11eb-9c76-2940b31dee0f.png)
 
+### 3.7.2. TCP Congestion Control : Details
 
+- 송신 측에서 ACK 받지 않은 데이터의 양을 제한하여 송신률을 제한
 
+- 송신 측의 혼잡 감지
+
+  - 손실 이벤트 : 타임아웃 또는 3개의 중복 ACK
+  
+  - 손실 이벤트가 발생하면 송신률을 감소시킴
+  
+- 혼잡제어 알고리즘의 3가지 요소
+
+  - AIMD
+  
+  - Slow Start
+  
+  - 타임아웃에 대한 반응
+  
+### 3.7.3. TCP Slow Start
+
+![image](https://user-images.githubusercontent.com/66773320/97006845-697ea400-157b-11eb-881a-768873903b18.png)
+
+- TCP 연결이 시작될 때 혼잡 윈도우 크기(cwnd)의 초기값은 1MSS
+
+- TCP 연결이 시작한 이후 데이터의 첫 번째 손실이 발생하기 전까지 송신률을 지수적으로 증가시킴
+
+- 매 RTT마다(오류없이 ACK가 올 때 마다) cwnd는 2배씩 증가
+
+### 3.7.4. TCP : Detecting, Reacting to Loss
+
+![image](https://user-images.githubusercontent.com/66773320/97006880-756a6600-157b-11eb-98d7-289324b05f9c.png)
+
+- TCP Tahoe : 타임아웃 또는 3개의 중복ACK 상황에서 항상 cwnd를 1 MSS 로 설정한다.
+
+- 타임아웃에 의해 감지된 손실 : 전혀 전송되지 않은 것으로 간주하고 심각한 혼잡 상황으로 인식
+  
+  - cwnd = 1MSS (Slow Start) 발생
+  
+  - cwnd는 지수적으로 증가하다가 임계값(threshold)에 달하면 선형적으로 증가
+
+- 3개의 중복 ACK에 의해 감지된 손실 : 다른 세그먼트는 잘 도착했으므로 일부 세그먼트들은 전송해도 된다는 것으로 간주하고, 조금 혼잡한 상황으로 인식
+
+- TCP Reno : TCP Tahoe와 다르게 타임아웃과 3개의 중복ACK 상황을 구분
+
+  - 3개의 중복 ACK가 발생하면 cwnd를 1이 아닌 절반으로 줄이게 됨
+  
+  - Tahoe에 비해 빠르게 원래 윈도우 크기에 도달할 수 있기 때문에 빠른 회복(Fast Recovery)라고 불림
+  
+- 가변적 임계값(Variable Threshold) 설정 : 손실 이벤트가 발생 시 임계값을 손실 이벤트 전의 cwnd의 1/2 크기로 설정
 
 
