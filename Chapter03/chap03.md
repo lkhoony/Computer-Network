@@ -599,4 +599,34 @@ __가장 현실적인 상황__
 ### 3.6.3. Causes/Costs of Congestion : Scenario 3
 >> 여러 개의 네트워크 장비를 거쳐가는 경우
 
+![image](https://user-images.githubusercontent.com/66773320/97005590-9e89f700-1579-11eb-9331-e04789706828.png)
+
+- λ'in : 재전송을 포함하여 입력버퍼에 패킷이 들어오는 속도
+
+- 데이터의 traffic이 증가하게 되므로 혼잡이 커지고 지연 시간이 길어짐
+
+- λ'in 이 계속 증가하게 되면(재전송 발생 증가), 패킷이 경로 상에 버려지는 상황이 증가한다는 뜻으로, 버려지는 지점까지 패킷을 전송하기 위해 상위 라우터에서 사용되는 전송 용량이 낭비됨
+
+## 3.7. TCP Congestion Control
+ 
+## 3.7.1. TCP Congestion Control : Additive Increase Multiplicative Descrease(AIMD)
+
+- 혼잡 윈도우 크기(Congestion Window Size, cwnd) : 수신 측의 윈도우 크기에 영향을 받으며 송신 측에 존재하는 윈도우 크기
+
+- 송신 측에서 ACK를 못받고 타임아웃 되면 패킷 손실이 발생한 것으로 알고 Congestion으로 받아들임. 따라서 송신 측의 윈도우 크기(cwnd)를 줄여서 데이터 전송 속도를 조절
+
+- 송신 측에서 패킷의 손실이 발생할 때 까지 이용 가능한 대역폭을 탐지하면서 전송률(cwnd)을 증가시킴
+
+__가법적 증가(Additive Increase)__
+
+- 손실이 발견될 때까지 매 RTT마다 1MSS씩 cwnd를 증가시킴. 추가로 매 ACK마다 cwnd는 MSS*(MSS/cwnd)바이트 씩 증가
+  
+__승법적 감소(Multiplicative Decrease)__
+
+- 손실이 발생한 후에 cwnd를 절반으로 감소시킴
+
+
+
+
+
 
