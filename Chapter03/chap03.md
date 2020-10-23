@@ -382,9 +382,9 @@ __Selective Repeat__
   
   6. 하지만 수신 측에서는 다음 window의 0번 패킷을 가리키고 있어 이전의 0번 패킷을 다음 0번 패킷으로 인식하여 문제가 발생함
   
-### 3.5. Connection Oriented Transport : TCP
+## 3.5. Connection Oriented Transport : TCP
 
-#### 3.5.1. TCP : Overview
+### 3.5.1. TCP : Overview
 
 - Point to Point
 
@@ -406,11 +406,11 @@ __Selective Repeat__
 
 - Flow Controlled
   
-#### 3.5.2. TCP Segment Structure
+### 3.5.2. TCP Segment Structure
 
 ![image](https://user-images.githubusercontent.com/66773320/96971468-16dbc280-1550-11eb-9e8b-e4cd5af24ae1.png)
 
-#### 3.5.3. TCP Seq. Numbers, ACKs
+### 3.5.3. TCP Seq. Numbers, ACKs
 
 __Sequence Number__
 
@@ -430,7 +430,7 @@ __Acknowledgement Number__
   
 ![image](https://user-images.githubusercontent.com/66773320/96973070-5dcab780-1552-11eb-9f71-b1be6ac5e24f.png)
 
-#### 3.5.3. TCP Round Trip Time, Timeout
+### 3.5.3. TCP Round Trip Time, Timeout
 
 - TCP Timeout 시간을 어떻게 적절하게 설정하는지?
 
@@ -442,7 +442,7 @@ __Acknowledgement Number__
   
   - 일반적인 RTT를 추정하기 위해 estimatedRTT라는 평균을 유지
   
-#### 3.5.4. TCP Reliable Data Transfer
+### 3.5.4. TCP Reliable Data Transfer
 
 - TCP는 네트워크 계층의 비신뢰적 서비스 위에서 신뢰적 서비스들을 사용하여 데이터를 전달
 
@@ -458,7 +458,7 @@ __Acknowledgement Number__
   
   - ack의 중복 
   
-#### 3.5.5. TCP : Retransmission Scenarios
+### 3.5.5. TCP : Retransmission Scenarios
 
 ![image](https://user-images.githubusercontent.com/66773320/96974838-b56a2280-1554-11eb-9296-02b03fc08acb.png)
 
@@ -492,7 +492,7 @@ __Cumulative ACK__
   
   - 수신 측에서는 ACK 메세지를 순서대로 보내기 때문에 ACK=120를 받으면 전송 측에서는 Seq=120에 대한 세그먼트만 보내면 됨
   
-#### 3.5.6. TCP Fast Retransmit
+### 3.5.6. TCP Fast Retransmit
 
 - timeout을 기다리는 것으로 패킷 손실을 검출하게 되면 시간이 오래걸릴 수 있음
 
@@ -502,7 +502,7 @@ __Cumulative ACK__
 
 ![image](https://user-images.githubusercontent.com/66773320/96997883-91ffa180-156d-11eb-8b23-27d21e77f152.png)
 
-#### 3.5.7. TCP Flow Control
+### 3.5.7. TCP Flow Control
 
 - 수신 측은 송신 측을 너무 많이, 너무 빨리 보내지 않는 방식으로 제어하여 수신 측의 버퍼가 넘치지 않게 함
 
@@ -512,13 +512,46 @@ __Cumulative ACK__
 
 - 수신 측은 rwnd(free buffer space) 값을 TCP 헤더에 담아 전송하고 전송 측은 이를 확인하여 전송하는 데이터를 조절
 
-#### 3.5.8. Connection Management
+### 3.5.8. Connection Management
 
 - 데이터를 교환하기 전에 전송 측과 수신 측은 handshake과정을 거침
 
-#### 3.5.9. TCP 3-Way Handshake
+### 3.5.9. TCP 3-Way Handshake
 
+![image](https://user-images.githubusercontent.com/66773320/97002648-3df8bb00-1575-11eb-9387-d2cefeb30cfb.png)
 
+  1. 클라이언트는 SYN 비트 플래그를 설정하고 서버에 SYN 세그먼트를 전송하고 최초의 순서번호를 기술 (SYN 세그먼트 : 연결 요청 시에만 세그먼트의 헤더에 flag 필드에 1비트의 값을 가진 세그먼트로 데이터는 존재하지 않음)
+  
+  2. 서버는 SYN 세그먼트를 받고 클라이언트에게 SYNACK 세그먼트를 전송함, TCP버퍼와 변수를 할당한 뒤 서버의 최초 순서번호를 기술
+  
+  3. 클라이언트는 SYNACK를 받고 ACK 응답을 서버에게 보냄, 클라이언트는 TCP 버퍼와 변수를 할당하고 ACK 응답에는 데이터가 포함될 수 있음
+  
+### 3.5.10. TCP : Closing a Connection
+
+![image](https://user-images.githubusercontent.com/66773320/97002706-4ea93100-1575-11eb-8dbd-dbb3bccb51f4.png)
+
+  1. 클라이언트는 세그먼트 헤더에 FIN비트 플래그를 설정하고 서버에 FIN 세그먼트를 전송
+  
+  2. 서버는 FIN 세그먼트를 받고 ACK 세그먼트를 전송함, 연결을 종료하고 FIN 세그먼트를 클라이언트에 전송
+  
+  3. 클라이언트는 서버로부터 FIN 세그먼트를 받고 ACK 세그먼트를 서버로 전송함, 이후 대기시간(timed wait) 동안 기다린 후 연결을 종료
+
+  4. 서버는 클라이언트로부터 ACK 응답을 받고 연결을 종료
+
+## 3.6. Principles of Congestion Control
+
+- 혼잡(Congestion)이란 너무 많은 데이터가 빠르게 전송되어 네트워크에서 다룰 수 있는 데이터를 넘어선 것을 의미함
+
+- 라우터의 버퍼가 오버플로우되어 패킷의 손실이 발생하거나 라우터 버퍼에서 Queueing Delay가 발생하여 혼잡 발생
+
+### 3.6.1. Causes/Costs of Congestion : Scenario 1
+>> 라우터가 무한의 buffer를 가지고 있을 경우
+
+- 출력 링크의 수용력을 R이라고 가정했을 때 
+
+  - 전송률이 아무리 커도 링크 처리량은 R/2를 넘을 수 없음
+  
+  - 지연 시간이 지수적으로 증가하므로 혼잡 시 큰 지연 발생
 
 
 
