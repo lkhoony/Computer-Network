@@ -464,4 +464,41 @@ __Acknowledgement Number__
 
 ![image](https://user-images.githubusercontent.com/66773320/96974870-be5af400-1554-11eb-99fa-cae67dee2ba4.png)
 
+__Lost ACK Scenario__
+  
+  - 수신 측에서 보낸 ACK 메세지가 손실 되었을 때
+  
+  - 8bytes의 sequence number가 92인 세그먼트를 받고 수신측에서 다음으로 받아야 하는 sequence number 100에 대한 ACK 메세지를 보내지만 이것이 손실됨
+  
+  - 전송 측에서는 sequence number가 92인 세그먼트의 타임아웃이 발생하고 다시 전송
+  
+__Premature Timeout__
+
+  - SendBase : 송신했지만 ACK를 받지 못한 가장 오래된 sequence number
+  
+  - 8bytes의 sequence number가 92인 세그먼트, 20bytes의 sequence number가 100인 세그먼트를 받고 수신 측에서 다음으로 받아야 하는 ACK=100, ACK=120메세지를 전송
+  
+  - ACK 100, ACK 120 메세지가 오기 전에 Seq=92인 데이터의 타임아웃 발생하여 재전송
+  
+  - 이후 전송 측은 ACK=100, ACK=120 메세지를 수신하고 SendBase를 100, 120으로 설정
+  
+  - 수신 측은 Seq=92의 데이터를 수신하고 ACK=120 메세지를 전송
+  
+__Cumulative ACK__
+
+  - 전송 측은 8bytes의 Seq=92 세그먼트, 20bytes의 Seq=100 세그먼트를 전송
+  
+  - ACK=100, ACK=120을 수신 측에서는 전송하지만 먼저 전송한 Seq=92에 대한 ACK=100메세지가 손실되고 전송 측은 ACK=120만 수신
+  
+  - 수신 측에서는 ACK 메세지를 순서대로 보내기 때문에 ACK=120를 받으면 전송 측에서는 Seq=120에 대한 세그먼트만 보내면 됨
+  
+#### 3.5.6. TCP Fast Retransmit
+
+- timeout을 기다리는 것으로 패킷 손실을 검출하게 되면 시간이 오래걸릴 수 있음
+
+- 중복 ACK메세지로 세그먼트의 손실을 검출
+
+  - 전송 측이 3개의 동일한 ACK 메세지를 받게 되면 타임아웃 전이더라고 해당 세그먼트를 빠르게 재전송
+
+
 
