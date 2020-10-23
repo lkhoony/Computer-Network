@@ -436,6 +436,12 @@ __Acknowledgement Number__
 
   - RTT 시간보다는 길게 해야하지만 너무 짧으면 불필요한 재전송이 많고 너무 길면 segment 손실에 대한 반응이 너무 느림
   
+  - sample RTT를 모든 전송된 segment에 대해서 측정하는 것 대신 때때로 한 번만 측정
+  
+  - sample RTT는 라우터에서의 혼잡이나 end system으로 가는 경로가 다른 이유들로 인해 segment별로 매번 다를 것임
+  
+  - 일반적인 RTT를 추정하기 위해 estimatedRTT라는 평균을 유지
+  
 #### 3.5.4. TCP Reliable Data Transfer
 
 - TCP는 네트워크 계층의 비신뢰적 서비스 위에서 신뢰적 서비스들을 사용하여 데이터를 전달
@@ -454,5 +460,8 @@ __Acknowledgement Number__
   
 #### 3.5.5. TCP : Retransmission Scenarios
 
+![image](https://user-images.githubusercontent.com/66773320/96974838-b56a2280-1554-11eb-9296-02b03fc08acb.png)
+
+![image](https://user-images.githubusercontent.com/66773320/96974870-be5af400-1554-11eb-99fa-cae67dee2ba4.png)
 
 
