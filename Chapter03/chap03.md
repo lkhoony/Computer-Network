@@ -363,5 +363,48 @@ __Selective Repeat__
   8. 전송 측에 4,5 패킷에 대한 ACK메세지(ACK4, ACK5)가 도착하고 이를 기록
   
   9. 수신 측에 2번 패킷이 도착하면 버퍼에 있던 3,4,5 패킷과 함께 전송하고 ACK2 메세지를 전송 측에 전송
+
+### 3.4.12. Selective Repeat Dilemma
+
+- Sequence Number를 나타내는 bit가 M bits일 경우 2^(M-1)개의 아웃스탠딩 프레임이 가능, 즉 window 크기는 2^(M-1)을 넘으면 안됨
+
+![image](https://user-images.githubusercontent.com/66773320/96966777-6a96dd80-1549-11eb-83cf-142973ff5b70.png)
+
+  1. sequence number가 0,1,2,3이고 이를 나타내는 bit 수는 2개(M=2)
   
+  2. b의 경우 window 크기를 2^(2-1) = 2 보다 크게(3)으로 설정 됨
   
+  3. 전송 측에서 0,1,2 패킷을 전송하여 수신 측에 도착하면 이를 받았다는 ACK0,1,2 메세지를 보냄
+  
+  4. 수신 측의 window는 순서대로 패킷을 받아 한칸 씩 밀려나서 (3,0,1)을 가리킴
+  
+  5. 그러나 송신 측에는 ACK0,1,2메세지가 도착하지 않아 0번 패킷의 타임아웃이 발생하여 0번 패킷을 재전송
+  
+  6. 하지만 수신 측에서는 다음 window의 0번 패킷을 가리키고 있어 이전의 0번 패킷을 다음 0번 패킷으로 인식하여 문제가 발생함
+  
+### 3.5. Connection Oriented Transport : TCP
+
+#### 3.5.1. TCP : Overview
+
+- Point to Point
+
+  - 하나의 전송 측은 하나의 수신 측과 연결됨
+
+- Reliable, in order byte stream
+
+- Pipelined
+
+  - Window 크기를 설정함으로써 TCP 혼잡과 흐름제어가 가능
+
+- Full Duplex Data
+
+  - 같은 연결에서 양방향 통신이 가능함
+
+- Connection Oriented
+
+  - handshaking 과정으로 데이터를 교환하기 전에 송신, 수신 측의 연결상태를 수립 
+
+- Flow Controlled
+  
+#### 3.5.2. TCP Segment Structure
+
