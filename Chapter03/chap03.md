@@ -408,3 +408,24 @@ __Selective Repeat__
   
 #### 3.5.2. TCP Segment Structure
 
+![image](https://user-images.githubusercontent.com/66773320/96971468-16dbc280-1550-11eb-9e8b-e4cd5af24ae1.png)
+
+#### 3.5.3. TCP Seq. Numbers, ACKs
+
+- Sequence Number
+
+  - Sequence number의 관점은 전송된 byte의 stream으로 봄
+
+  - 예를 들어서 MSS가 1000byte, data stream이 500000byte 일 때 첫 번째 data stream의 byte는 0이고 TCP는 500개의 segment를 만들 수 있음
+
+  - 첫 번째 segment는 sequence number 0, 두 번째 segment는 sequence number 1000을 받을 것임
+  
+- Acknowledgement Number
+
+  - TCP가 full duplex라는 점에서 전송 측에서 데이터를 보내는 와중에 데이터를 받을 수 있음
+  
+  - 수신 측으로부터 도착한 segment에는 수신 측에서 전송 측으로 날라온 데이터에 대한 sequence number가 포함됨
+
+  - 전송 측이 segment에 넣은 acknowledgement number는 전송 측이 수신 측으로부터 기대하는 다음 byte의 sequence number가 됨
+  
+
