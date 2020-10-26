@@ -104,3 +104,24 @@
 - 일반화된 포워딩 : 헤더 필드 값의 전체를 이용하여 포워딩
 ![image](https://user-images.githubusercontent.com/66773320/97151233-8bae3700-17b2-11eb-8c62-c21e77b90221.png)
 
+
+### 4.2.3. Destination Based Forwarding
+
+![image](https://user-images.githubusercontent.com/66773320/97151553-feb7ad80-17b2-11eb-9c00-b10b40137922.png)
+
+- IP 주소를 범위로 정해 포트 번호를 구분하는데 IP 주소 32비트를 모두 사용하면 테이블이 커짐
+
+- 따라서 앞부분의 정해진 비트까지만 보여주고 범위(range)를 정하여 포트번호를 구분
+
+### 4.2.4. Longest Prefix Matching
+
+- 패킷의 목적지 IP주소가 포워딩 테이블에서 둘 이상의 IP주소 범위에 포함될 경우, 그 중 비트가 가장 많이 공개된(가장 긴 prefix) IP 주소 범위의 포트번호로 포워딩
+
+### 4.2.5. Switching Fabrics
+
+- 스위치 내부에서 입력 버퍼에 있는 패킷을 적절한 출력 버퍼로 전송하는 과정 필요
+
+- 이를 가상의 회선으로 그물망 혹은 직렬 연결하여 구성되는 모양을 섬유(fabric)으로 비유한 것
+
+- Switching rate : 입력 포트에서 출력 포트로 패킷을 전송할 수 있는 속도로, 종종 다수의 입출력 라인 속도에서 측정되어진다. n개의 입력이 있을 때, 스위칭 속도는 입력 라인 속도의 N배가 요구됨
+
