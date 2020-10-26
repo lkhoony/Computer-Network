@@ -93,6 +93,8 @@
 
 ### 4.2.2. Input Port Functions
 
+![image](https://user-images.githubusercontent.com/66773320/97151233-8bae3700-17b2-11eb-8c62-c21e77b90221.png)
+
 - 패킷의 헤더 필드 값(목적지 IP주소)을 보고 포워딩 테이블에 있는 출력 포트 번호를 찾음
 
 - 포워딩 테이블에 있는 IP주소와 패킷의 목적지 IP주소를 비교하는 데 시간이 오래 걸림
@@ -102,8 +104,6 @@
 - 목적지 기반의 포워딩 : 목적지 IP 주소만을 이용하여 포워딩 (전통적인 방식)
 
 - 일반화된 포워딩 : 헤더 필드 값의 전체를 이용하여 포워딩
-![image](https://user-images.githubusercontent.com/66773320/97151233-8bae3700-17b2-11eb-8c62-c21e77b90221.png)
-
 
 ### 4.2.3. Destination Based Forwarding
 
