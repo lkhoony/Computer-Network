@@ -173,6 +173,8 @@ ex) Cisco 12000 제품이 interconnection network를 통해 60Gbps의 속도로 
   
   - 즉, 둘 이상의 다른 입력 버퍼에서 같은 출력 버퍼로 이동하는 패킷들이 있을 때, 하나가 이동하면 다른 입력 버퍼의 맨 앞의 패킷은 이동할 수 없다. 그러면 대기하는 패킷의 뒤에 있는 패킷들도 덩달아 대기해야하는 상황을 말한다.
   
+![image](https://user-images.githubusercontent.com/66773320/97154830-c23a8080-17b7-11eb-9698-478feb05a3ec.png)
+
 ### 4.2.10. Output Port Queueing
 
 - 스위칭 구조가 패킷의 전송속도(출력링크 속도)보다 더 빨리 출력 포트에 도착할 때 큐잉(버퍼 관리)가 필요
@@ -182,6 +184,8 @@ ex) Cisco 12000 제품이 interconnection network를 통해 60Gbps의 속도로 
 - 스위치 구조를 경유한 패킷 도착 속도가 출력 라인 속도보다 클 경우 버퍼링
 
 - 큐잉(지연)과 출력 버퍼 오버플로우로 인한 패킷 손실 발생
+
+![image](https://user-images.githubusercontent.com/66773320/97154845-c8c8f800-17b7-11eb-8368-0a29afd24ec1.png)
 
 ### 4.2.11. Scheculing Mechanisms
 > 링크로 보낼 다음 패킷을 결정하는 과정 및 방법
@@ -202,10 +206,16 @@ ex) Cisco 12000 제품이 interconnection network를 통해 60Gbps의 속도로 
 
 - 가장 높은 우선순위를 가진 큐에 담긴 패킷들을 먼저 링크로 전송 즉, 순위가 낮은 큐는 순위가 높은 큐가 비어 있어야 패킷들을 전송할 수 있음
 
+![image](https://user-images.githubusercontent.com/66773320/97154873-d41c2380-17b7-11eb-95f7-f05c831896cb.png)
+
 #### Round Robin
 
 - 다수의 큐들이 돌아가면서(Cyclically) 각각의 패킷들을 전송함
 
+![image](https://user-images.githubusercontent.com/66773320/97154894-de3e2200-17b7-11eb-977b-5e7eeedd3603.png)
+
 #### WFQ(Weighted Fair Queuing)
 
 - 라운드 로빈(RR) 스케줄링과 유사하나, 각 큐마다 대기 시간이 있다는 점에서 차이가 있 즉, 각 큐는 돌아가면서 패킷을 전송하지만 전송되는 시간간격이 정해져 있다.
+
+![image](https://user-images.githubusercontent.com/66773320/97154913-e4cc9980-17b7-11eb-9bad-9f160fe3684f.png)
