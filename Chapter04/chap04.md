@@ -1,4 +1,4 @@
-# Chapter 4. Network Layer
+# Chapter 4. Network Layer : The Data Plane
 > 데이터 영역에 집중하여 네트워크 계층 서비스의 유형을 이해
 > 인터넷의 구현 및 인스턴스 화
 
@@ -25,6 +25,8 @@
 > 라우팅이 출발지에서 목적지까지 여행을 계획하는 과정이라면 포워딩은 여행 중간의 하나의 지점을 지나가는 과정
 
 #### Forwarding
+
+  - 라우터에는 입력 버퍼와 출력 버퍼가 있다.
 
   - 라우터의 입력 버퍼로 들어온 패킷의 헤더에 있는 IP 주소와 포워딩 테이블의 IP 주소를 비교하여 적절한 포트번호를 가진 출력 버퍼로 패킷을 옮김
 
@@ -55,6 +57,8 @@
   2. SDN(Software Defined Networking) : 소프트웨어 측면에서 서버에 의해 구현
 
 ### 4.1.4. Per-Router Control Plane
+
+- 각각의 라우터 별로 라우팅 알고리즘을 수행하여 라우터 별로 forwarding table을 유지
 
 - 각 라우터마다 있는 라우팅 알고리즘이 Control plane의 상호작용을 한다.
 
