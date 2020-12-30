@@ -223,3 +223,9 @@ ex) Cisco 12000 제품이 interconnection network를 통해 60Gbps의 속도로 
 - 라운드 로빈(RR) 스케줄링과 유사하나, 각 큐마다 대기 시간이 있다는 점에서 차이가 있 즉, 각 큐는 돌아가면서 패킷을 전송하지만 전송되는 시간간격이 정해져 있다.
 
 ![image](https://user-images.githubusercontent.com/66773320/97154913-e4cc9980-17b7-11eb-9bad-9f160fe3684f.png)
+
+## 4.3. IP : Internet Protocol
+
+### 4.3.1 The Internet Network Layer
+
+
