@@ -226,6 +226,127 @@ ex) Cisco 12000 제품이 interconnection network를 통해 60Gbps의 속도로 
 
 ## 4.3. IP : Internet Protocol
 
-### 4.3.1 The Internet Network Layer
+### 4.3.1. The Internet Network Layer
+
+![image](https://user-images.githubusercontent.com/66773320/103330316-46550100-4aa4-11eb-93c2-2cbeb6d56e3e.png)
+
+### 4.3.2. IP Datagram Format
+
+![image](https://user-images.githubusercontent.com/66773320/103330341-6a184700-4aa4-11eb-869a-9e88c937eb28.png)
+
+- IP 헤더는 최소 20Bytes의 크기를 갖는다.
+
+	- 32bits는 4 * 8bits(1Byte) = 4Bytes며 최소 5줄이 있기 때문에 20Bytes 크기의 헤더 
+	
+	- data부분에 헤더를 포함한 TCP 혹은 UDP 세그먼트가 포함
+	
+	- 따라서 TCP 헤더는 20Bytes기 때문에 IP 데이터그램의 헤더는 최소 40Bytes
+	
+- IP Datagram의 헤더 구성요소
+
+	- ver : IP Protocol 버전 번호
+	
+	- head.len : 세그먼트의 헤더는 제외한 Header의 길이
+	
+	- type of service : IP 패킷 헤더 내 서비스 유형 및 혼잡 알림을 나타내는 8비트 필드
+	
+	- length : IP 데이터그램의 전체 길이(크기)
+	
+	- Identification : 패킷들로 분할하는 단편화와 재조합을 위한 16비트의 식별자, 각 조각이 동일한 데이터그램에 속하면 같은 일련번호를 공유함
+	
+	- flgs : 분열의 특성을 나타내는 플래그
+	
+	- fragment offset : 단편화, 재조합에 필요한 조각나기 전 원래의 데이터그램의 8바이트 단위의 위치
+	
+	- time to live(TTL) : 패킷의 수명, 최대 초기화 값은 255며 하나의 지점을 지나갈 때마다 1씩 감소하며 최종 목적지에 도착할 때 TTL 값은 0이 되어야 함
+	
+	- upper layer : 상위 계층의 프로토콜(TCP or UDP)
+	
+	- header checksum : 헤더에 대한 오류검사를 위한 필드, checksum은 전체 데이터그램을 합한 값의 1의 보수값을 저장
+	
+	- 32 bit source IP address : 출발지 IP주소(32bits)가 저장됨
+	
+	- 32 bit destination IP address : 목적지 IP주소(32bits)가 저장됨
+	
+	- data : TCP 혹은 UDP 세그먼트가 저장되어 있음
+	
+### 4.3.3. IP Fragmentation, Reassembly
+
+- 네트워크 링크는 최대 전송 크기(Max Transfer Size, MTU)를 가지고 있음
+
+- 크기가 큰 IP 하나의 데이터그램을 여러 데이터그램으로 단편화(Fragmentation)
+
+- 최종 목적지에서 분할되었던 데이터그램의 IP해더를 참고하여 하나의 데이터그램으로 재조합(Reassembly)
+
+- IP 헤더의 Identification 비트를 확인하여 재조합
+
+![image](https://user-images.githubusercontent.com/66773320/103333341-02b4c400-4ab1-11eb-96d6-eb4e878c3bee.png)
+
+```
+- Datagram 크기가 4000byte고 MTU가 1500bytes일 때
+
+- 하나의 데이터그램은 1500bytes보다 작은 여러개의 데이터그램으로 단편화
+
+- origin data에서 header를 제외한 크기는 3980bytes
+
+- 3980bytes 크기의 데이터를 크기가 MTU(1500bytes)인 데이터그램으로 단편화 하면 각각의 데이터그램에도 20bytes의 헤더가 필요
+
+- 따라서 20bytes를 제외한 1480bytes크기의 데이터가 각각의 데이터그램에 단편화 됨
+
+- 두 번째 데이터그램의 offset 필드에는 1480이 입력되며 데이터의 크기가 크기 때문에 8배 작은 값(185)가 저장됨
+```
+
+### 4.3.4. IP Addressing : Introduction
+
+> host와 router간의 인터페이스
+
+- IP 주소 : 32비트의 호스트와 라우터 인터페이스에 대한 식별자
+
+- 인터페이스 : 호스트/라우터와 물리 링크 사이의 연결
+
+	- 라우터는 일반적으로 여러개의 인터페이스를 갖는다.
+	
+	- 호스트는 일반적으로 하나 혹은 두개의 인터페이스를 갖게 됨
+	
+- IP 주소는 이러한 인터페이스와 연관됨
+
+![image](https://user-images.githubusercontent.com/66773320/103339996-4960e900-4ac6-11eb-9a70-4daa360d5d75.png)
+
+### 4.3.5. Subnets
+
+- 하나의 네트워크가 분할되어 나누어진 작은 네트워크
+
+- 네트워크를 분할 하는것을 서브네팅(subnettin)이라 하며 같은 서브넷 내에서는 라우터의 개입 없이 서로 물리적으로 접근 가능
+
+- 서브넷을 결정하기 위해 호스트 혹은 라우터로 부터 각각의 인터페이스를 분리하고 분리된 네트워크 섬을 생성함
+
+- 각각의 분할된 네트워크를 서브넷이라고 함
+
+![image](https://user-images.githubusercontent.com/66773320/103340647-f0925000-4ac7-11eb-8aef-edc16891c7f4.png)
+
+### 4.3.6. IP Addressing : CIDR
+
+> CIDR : Classless InterDomain Routing
+
+- 클래스 없는 도메인간 라우팅 기법
+
+- Class는 CIDR가 나오기 전에 사용했던 네트워크 구분 체계로 클래스가 없다는 것은 네트워크 구분을 Class로 하지 않는다는 것
+
+![image](https://user-images.githubusercontent.com/66773320/103341240-b4f88580-4ac9-11eb-8f4e-2a5652f33ca7.png)
+
+- CIDR는 IP주소를 Subnet part와 host part로 구분
+
+- subnet part로 각 네트워크 대역을 구분하고 host part로 각 서브넷 내에서 통신
+
+- 구분된 네트워크 간 통신을 위한 주소체계
+
+- x는 서브넷 부분을 뜻하는 비트의 갯수를 나타냄
+
+![image](https://user-images.githubusercontent.com/66773320/103341597-b37b8d00-4aca-11eb-9846-5f37a9228eea.png)
 
 
+### 참고
+
+- https://movefast.tistory.com/52?category=765942
+
+- https://kim-dragon.tistory.com/9
