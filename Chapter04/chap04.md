@@ -242,7 +242,7 @@ ex) Cisco 12000 제품이 interconnection network를 통해 60Gbps의 속도로 
 	
 	- 따라서 TCP 헤더는 20Bytes기 때문에 IP 데이터그램의 헤더는 최소 40Bytes
 	
-- IP Datagram의 헤더 구성요소
+- IPv4 Datagram의 필드
 
 	- ver : IP Protocol 버전 번호
 	
@@ -344,9 +344,179 @@ ex) Cisco 12000 제품이 interconnection network를 통해 60Gbps의 속도로 
 
 ![image](https://user-images.githubusercontent.com/66773320/103341597-b37b8d00-4aca-11eb-9846-5f37a9228eea.png)
 
+### 4.3.7. IP Addresses : How to Get One?
+
+> host가 IP 주소를 얻는 방법
+
+- IP 주소를 할당하는 방식에는 두 가지 방법이 존재
+
+	- 직접 system admin file에 입력하여 할당하는 방법
+	
+	- DHCP를 통해 동적으로 할당하는 방법
+	
+### 4.3.8. DHCP : Dynamic Host Configuration Protocol
+
+> 호스트의 IP주소와 각종 TCP/IP 프로토콜의 기본 설정을 클라이언트에게 자동적으로 제공해주는 프로토콜
+
+- 네트워크 서버로부터 네트워크에 접속할 때 동적으로 IP를 할당함
+
+- DHCP 서버가 IP 주소를 영구적으로 호스트에 할당하는 것이 아니라 임대기간(Lease Time)동안 사용하도록 함
+
+- DHCP를 사용하는 목적 
+
+	- 네트워크에 연결되어 있을 때만 주소가 할당되기 때문에 다른 호스트가 재사용할 수 있다.
+	
+	- 짧은 시간 동안에 네트워크에 접속하고자 하는 모바일 사용자들을 지원함
+
+- DHCP는 단지 서브넷의 IP주소 뿐 아니라 더 많은 것을 리턴함
+
+	- 외부와 통신하기 위한 첫번째 홉 라우터 주소(default gateway IP)
+	
+	- DNS 서버 이름, IP 주소
+	
+	- 서브넷 마스크
+	
+### 4.3.9. DHCP Client-Server Scenario
+
+![image](https://user-images.githubusercontent.com/66773320/103352926-df0e6f80-4aea-11eb-945d-c91e4d8f4458.png)
+
+- DHCP Discover
+
+	- Client의 DHCP 서버를 찾기 위한 시도 
+	
+	- 메세지 방향 : Client -> DHCP Server
+
+	- 서버에 대한 정보가 없기 때문에 source IP를 0.0.0.0, Dest IP를 모든 목적지를 의미하는 255.255.255.255로 설정 (Broadcast 메세지)
+	
+- DHCP Offer
+
+	- DHCP 서버의 Discover에 대한 응답
+	
+	- 메세지 방향 : DHCP Server -> Client
+	
+	- DHCP 서버의 존재와 단말에 할당할 IP 주소, DNS 서버 이름, 첫번째 홉 라우터 주소(default gateway), 서브넷 마스크를 담아서 전송
+
+- DHCP Request
+
+	- Client의 IP 요청
+	
+	- 메세지 방향 : Client -> DHCP Server
+	
+	- DHCP Offer에서 받은 IP 주소에 대한 임대 요청
+	
+- DHCP ACK 
+
+	- DHCP Client의 IP 요청에 대한 응답
+	
+	- 메세지 방향 : DHCP Server -> Client
+	
+	- DHCP ACK 메세지를 받으면 할당 된 IP를 사용할 수 있게 됨
+	
+- Default Gateway란?
+
+	- 동일 랜에 위치하지 않은 단말과 통신을 하기 위해 통과하는 첫번째 라우터
+	
+	- defalut gateway주소는 자신과 동일한 랜에 위치한 주소여야 함
+	
+	```
+	IP 주소 : 1.1.1.10, default gateway : 1.1.1.1일 경우 동일한 LAN에 위치
+	```
+
+### 4.3.10. Hierarchical Addressing : Route Aggregation
+
+![image](https://user-images.githubusercontent.com/66773320/103394869-651fca00-4b6e-11eb-8db5-585677225638.png)
+
+- 서브넷이 IP주소를 받기 위해서 ISP의 주소 블록을 가져오게 됨
+
+- 위에서는 ISP(Internet Service Provider)는 200.23.16.0/20으로 들어온 요청을 여러개의 기관들을 구분하기 위해 3개의 비트를 사용해서 총 8개의 기관식별(Subnets)에 사용
+
+- ISP에 의해 계층적으로 IP주소가 관리되어 라우팅 정보를 효율적으로 알림
+
+- ISP 내의 포워딩 테이블의 Entry 수는 서브넷을 대표하는 라우터의 개수
+
+- ISP가 호스트 개개인의 IP를 관리하게 되면 포워딩 테이블에서 탐색하는 시간이 길어지기 때문에 대표 라우터의 IP주소로 테이블을 구성하여 탐색 시간을 줄임
+
+![image](https://user-images.githubusercontent.com/66773320/103395167-1a9f4d00-4b70-11eb-8b59-dc38d14aa919.png)
+
+
+### 4.3.11. NAT : Network Address Translation
+> 네트워크 주소 변환
+
+- IP 패킷의 TCP/UDP 포트 숫자와 소스 및 목적지의 IP 주소 등을 재기록하면서 라우터를 통해 네트워크 트래픽을 주고 받는 기술
+
+- Subnet 내부에서 통신 할 때는 라우터를 거치지 않고 자신의 IP주소를 사용하여 통신한다.
+
+- Subnet 외부와 통신 할 경우에는 다른 Subnet과 통신을 하게 되는데 다른 Subnet 내에서도 같은 IP주소가 존재할 수 있다.
+
+- 따라서 서브넷 내에서 NAT 라우터를 거쳐갈 때 단 하나의 NAT IP주소로 변환되어 통신하게 됨
+
+![image](https://user-images.githubusercontent.com/66773320/103398029-2a259280-4b7e-11eb-907b-a8f5be859a3f.png)
+
+- NAT Router의 구현 과정
+
+	- 외부로 나가는 데이터그램 : 호스트의 Source IP/Port는 NAT IP/Port로 매핑되고 데이터그램을 받은 client 혹은 server는 destination으로 해당 NAT IP/Port를 사용
+	
+	- NAT Router는 변환 테이블이 저장되어 있어 서브넷 내의 IP/Port를 NAT IP/Port로 매핑
+	
+	- 내부로 들어오는 데이터그램 : NAT Router에 저장되어 있는 NAT Table을 참고하여 NAT IP/Port를 호스트의 Source IP/Port로 매핑
+	
+- NAT IP 주소를 변환하는 과정에서 IP 패킷의 TCP/UDP 포트 숫자 및 IP 주소가 변경되는데 패킷에 변화가 생기면 체크섬도 다시 계산하는 과정이 필요하다.
+
+- 이러한 네트워크 성능에 영향을 주는 요소들이 존재함에도 불구하고 하나의 공인 IP를 사용함으로써 라우터의 탐색 시간을 줄여 빠르게 통신한다.
+
+- NAT Table은 서브넷 내에서 외부로 나갈 때 매핑 즉, 외부로 나가는 과정이 없으면 매핑이 되지 않는다.
+
+	- 서브넷 내에서 실행되는 서버에 클라이언트가 연결을 요청하게 되면 내부 사설 IP는 서브넷 내에서만 유효하기 때문에 접근 불가능
+	
+	- 메세지를 받은 수신 측에서 응답 메세지를 보낼 때 송신 측에서 매핑된 NAT IP/Port를 destination으로 보내게 되는데 서브넷 내에서 실행되는 서버는 NAT 매핑 과정이 없이 사설 IP/Port를 사용 중이기 때문에 외부에서 접근 불가능
+
+### 4.3.12. IPv6 : Motivation
+
+- 32bits IP 표현방식(IPv4)이 곧 모두 할당 될 수 있기 때문에 새로운 IP 주소 체계가 필요
+
+- 헤더의 형식이 프로세싱과 포워딩을 빠르게 하며 서비스 품질의 향상을 위한 헤더 형식을 변경함
+
+- 헤더의 크기가 40bytes로 증가하였고 단편화를 허용하지 않는다.
+
+### 4.3.13. IPv6 Datagram Format
+
+> 128bit의 IP 주소체계
+
+![image](https://user-images.githubusercontent.com/66773320/103399921-9a381680-4b86-11eb-9618-1ac49dcb45c9.png)
+
+- IPv6 Datagram 필드
+
+	- ver : IP버전을 저장하는 필드
+	
+	- priority : 혼잡되는 트래픽에 대해 페킷의 우선순위를 나타냄
+	
+	- payload len : data의 길이를 저장
+	
+	- next hdr(header) : 상위 계층의 프로토콜(IPv4의 upper layer와 유사)
+	
+	- hop limit : TTL(Time To Live)를 의미하며 최대 값은 255
+	
+	- source address : IPv6주소체계에서 128bit 송신 주소
+	
+	- destination address : IPv6주소체계에서 128bit 수신 주소
+	
+	- data : TCP 혹은 UDP 세그먼트가 저장되어 있음
+	
+- checksum 필드를 삭제하여 매번 라우터마다 체크섬 계산을 하는 비효율을 제거함
+
+### 4.3.14. Transition from IPv4 to IPv6
+
+- 모든 라우터가 동시에 업그레이드 되긴 어렵긴 때문에 실제로 보편화에 시간이 걸림
+
+- 따라서 IPv4 데이터그램의 payload로 IPv6 데이터그램을 실어 IPv4 라우터를 이용하여 전송
+
+![image](https://user-images.githubusercontent.com/66773320/103409319-9cf83300-4ba9-11eb-91e3-6ab31c91b027.png)
+
 
 ### 참고
 
 - https://movefast.tistory.com/52?category=765942
 
 - https://kim-dragon.tistory.com/9
+
+- https://www.netmanias.com/ko/post/blog/5403/ip-ip-routing-network-protocol/subnet-mask-and-default-gateway
