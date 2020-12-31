@@ -111,6 +111,8 @@
 
 ### 4.2.3. Destination Based Forwarding
 
+> 목적지 기반의 포워딩
+
 ![image](https://user-images.githubusercontent.com/66773320/97151553-feb7ad80-17b2-11eb-9c00-b10b40137922.png)
 
 - IP 주소를 범위로 정해 포트 번호를 구분하는데 IP 주소 32비트를 모두 사용하면 테이블이 커짐
@@ -512,7 +514,53 @@ ex) Cisco 12000 제품이 interconnection network를 통해 60Gbps의 속도로 
 
 ![image](https://user-images.githubusercontent.com/66773320/103409319-9cf83300-4ba9-11eb-91e3-6ab31c91b027.png)
 
+## 4.4. Generalized Forward and SDN
 
+- 목적지 기반 포워딩
+
+	- 목적지 IP만을 가지고 포워딩하는 방식
+	
+	- 제어 영역에 의해 생성된 포워딩 테이블(Forwarding Table)을 참고하여 패킷을 전달
+	
+- 일반화된 포워딩(Generalized Forward)
+
+	- 각각의 라우터는 제어 영역에 의해 생성되는 플로우 테이블(Flow Table)을 참고하여 패킷을 전달
+	
+- Software Defined Network(SDN)
+
+	- 소프트웨어로 네트워크 경로설정 및 제어, 운용 관리를 처리할 수 있음
+	
+	- 하나의 물리 네트워크 환경에서 다수의 가상 네트워크 환경 구축 가능
+	
+	- 네트워크 장비가 단순히 패킷만 전달하고 소프트웨어 제어기를 프로그래밍 하여 데이터의 흐름을 제어
+	
+
+### 4.4.1. OpenFlow Data Plane Abstraction
+
+- OpenFlow : SDN을 구현하기 위해 처음으로 제정된 표준 인터페이스
+
+- 패킷 제어 기능(control plane)과 전달 기능(data plane)을 분리하여 프로그래밍 기반 네트워크 제어
+
+- 제어 및 데이터 평면을 __범용서버__에 설치하여 소프트웨어로 구현
+
+- controller가 스위치에 명령, 스위치는 명령에 따른 패킷 전송, 수정, 폐기 처리
+
+- L2 스위치에 OpenFlow 프로토콜 펌웨어를 추가하고 컨트롤러는 소프트웨어로 구현된다.
+
+- OpenFlow 스위치는 다수의 플로우 테이블 및 다수의 플로우 엔트리로 구성
+
+- 기본 동작
+
+	- 패킷 발생 시 플로우 테이블에 해당 패킷의 정보가 있는지 확인
+	
+	- 플로우 테이블에 존재하면 바로 처리
+	
+	- 존재하지 않으면 controller에게 해당 패킷에 대한 정보 요청
+	
+	- 스위치로부터 제어정보를 요청받은 컨트롤러는 내부에 존재하는 패킷 제어정보 확인, 결과 전달
+	
+	- 받은 데이터를 플로우 테이블에 저장하여 동일 패킷 발생 시 이를 활용하여 처리
+	
 ### 참고
 
 - https://movefast.tistory.com/52?category=765942
@@ -520,3 +568,5 @@ ex) Cisco 12000 제품이 interconnection network를 통해 60Gbps의 속도로 
 - https://kim-dragon.tistory.com/9
 
 - https://www.netmanias.com/ko/post/blog/5403/ip-ip-routing-network-protocol/subnet-mask-and-default-gateway
+
+- http://itwiki.kr/w/%EC%98%A4%ED%94%88%ED%94%8C%EB%A1%9C%EC%9A%B0
