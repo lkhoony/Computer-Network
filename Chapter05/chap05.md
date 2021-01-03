@@ -169,7 +169,161 @@ one hop을 더하는 이유
 
 - 라우터들을 Autonomous Systems(AS) 혹은 도메인으로 알려진 영역으로 그룹화 시키는 것으로 문제들을 해결할 수 있다.
 
-- int
+	- Autonomous System(AS)
+	
+		- 네트워크 관리자에 의해 관리되는 라우터들의 집단을 하나로 생각하는 것
+		
+		- 예를들어 K사라는 ISP업체의 라우터들을 관리자에 의해 설정되었다면 그 라우터들은 하나의 AS가 됨
+		
+- intra-AS Routing
+
+	- 같은 자치 시스템(AS) 내부에 호스트와 라우터들 간의 라우팅 방식
+	
+	- 동일한 AS 내부의 라우터들은 같은 인트라 도메인 프로토콜(intra-domain protocol)을 수행
+	
+	- 게이트웨이 라우터(Gateway Router) : 자신의 AS내에서 가장 가장자리의 라우터로 다른 AS와 연결한다.
+	
+- inter-AS Routing
+	
+	- 서로 다른 자치 시스템(AS)간의 라우팅 방식
+	
+	- 게이트웨이 라우터가 인트라 도메인 라우팅 뿐 아니라 인터 도메인 라우팅도 수행
+	
+### 5.3.3. Interconnected ASes
+
+- 포워딩 테이블은 intra-AS와 inter-AS의 라우팅 알고리즘에 의해 설정됨
+
+- intra-AS 라우팅은 해당 AS내에서 목적지들에 대한 테이블 엔트리를 결정한다.
+
+- inter-AS와 intra-AS 모두 외부 목적지들에 대한 테이블 엔트리를 결정한다.
+
+### 5.3.4. Inter-AS Tasks
+
+![image](https://user-images.githubusercontent.com/66773320/103473978-3ca00600-4de2-11eb-947b-f24630c80f82.png)
+
+- AS1이 AS1 외부로 목적지가 설정 된 데이터그램을 전송받았다고 가정하면 
+
+	- 라우터는 패킷을 게이트웨이 라우터로 전달해야 하는데 여러 게이트웨이 라우터 중 하나를 선택하는 방식이 필요
+	
+- AS1은 AS2, AS3를 경유하여 도달할 수 있는 목적지들을 학습해야 함
+
+- 이러한 정보를 AS1 내의 모든 라우터에 전파해야 함
+
+### 5.3.5. Intra-AS Routing
+
+- AS 내에서의 라우팅 프로토콜
+
+- Interior Gateway Protocols(IGP)라고도 함
+
+- 대표적인 intra-AS 라우팅 프로토콜의 종류
+
+	- RIP : Routing Information Protocol
+	
+		- RIP는 내부 네트워크에서 주로 사용
+		
+		- hop count에 따라 최단 경로를 동적으로 결정하는 거리 벡터 알고리즘을 사용
+		
+	- OSPF : Open Shortest Path First
+	
+	- IGRP : Interior Gateway Routing Protocol
+
+### 5.3.6. OSPF(Open Shortest Path First)
+
+- 개방형으로 라우팅 프로토콜이 공용으로 이용할 수 있어야 함
+
+- 링크 상태 알고리즘을 사용
+
+	- 링크 상태 패킷을 전파
+	
+	- 각 노드에 전체 AS의 토폴로지를 저장
+	
+	- 최소비용을 다익스트라 알고리즘을 사용하여 계산
+	
+- 라우터는 OSPF 링크 상태 정보(라우팅 정보)를 AS내의 전체 라우터에게 브로드캐스트한다.
+	
+	- 링크상태 정보를 Flooding
+	
+	- OSPF메세지를 TCP, UDP가 아닌 IP 데이터그램의 데이터부분(payload)에 담아 전송
+	
+- 대규모 엔터 프라이즈 네트워크에서 널리 사용되는 내부 게이트웨이 프로토콜(IGP, Interior Gateway Protocol)
+
+### 5.3.7. OSPF Advanced Features
+
+- 보안(Security) : 모든 OSPF 메세지는 악의적인 접근을 방지하기 위해 인증되어야 함
+
+- 동일 비용의 경로가 다수 존재할 때 여러 경로를 사용할 수 있음(RIP 프로토콜은 오직 하나의 경로)
+
+- 유니캐스트와 멀티캐스트를 지원
+
+- 넓은 도메인 영역에서는 계층적 OSPF(hierarchical OSPF)를 지원
+
+### 5.3.8. Hierarchical OSPF
+
+![image](https://user-images.githubusercontent.com/66773320/103477622-0d01f580-4e04-11eb-951a-3edb860d99d4.png)
+
+- AS가 크면 Flooding시 오버헤드가 증가하여 이름 방지하기 위해 계층적으로 영역을 나눈다.
+
+- 2계층 구조
+
+	- Backbone 영역
+	
+	- Local Area 영역
+	
+- 한 영역(Area)내에서만 링크 상태를 광고한다.
+
+- 각각의 노드는 구체적인 영역 토폴로지를 갖게 되고 다른 영역에 대해서는 최단 경로의 방향만 알고있다.
+
+- 지역 경계 라우터(Area Border Router, ABR)
+
+	- 트래픽 양을 줄이기 위해 축약 정보를 backbone 영역의 라우터들에게 전파
+	
+	- 요약된 정보를 다를 ABR에게도 광고
+	
+- 백본 라우터(Backbone Router)
+
+	- AS 내의 여러 Area들을 모두 연결하는 백본 Area에서 특별한 역할을 하는 라우터
+	
+	- OSPF 도메인 내 모든 링크상태 정보를 갖게됨
+	
+	- 자신의 Area에 있는 라우팅 정보를 모아서 다른 Area에 전달 및 전파
+	
+- 경계 라우터(Boundary Router)
+
+	- 다른 AS와 연결되는 라우터
+
+## 5.4 Routing among the ISPs : BGP
+
+- Border Gateway Protocol(BGP) : AS간의 inter-AS 프로토콜을 의미
+
+### 5.4.1. Internet inter-AS routing : BGP
+
+![image](https://user-images.githubusercontent.com/66773320/103479304-2610a380-4e10-11eb-8245-4a03ed9954b2.png)
+
+- exterior BGP(eBGP)
+	
+	- 이웃 AS로부터 목적지 도달을 위해 필요한 정보(서브넷 도달성 정보)를 얻음
+	
+	- TCP 기반 통신(179번 포트)으로 신뢰성 있는 통신을 함
+	
+	- 유니캐스트 방식으로 전송
+	
+- interior BGP(iBGP)
+
+	- 해당 AS내의 모든 라우터에게 도달성 정보를 전파
+	
+	- AS내부에서 라우팅 정보를 주고 받음
+	
+- 도달성 정보와 AS 정책을 기반으로 다른 네트워크로의 좋은 경로를 결정한다.
+
+- 다른 네트워크로 해당 서브넷이 존재하다는 것을 광고하여 정보 전달을 가능하게 함
+
+### 5.4.2. BGP Basics
+
+- BGP Session
+
+	- 두 BGP 라우터들을 반 영구적인 TCP 연결을 통해 BGP 메세지(라우팅 정보)를 주고 받음
+	
+	- 
 ### 참고
 
 - https://m.blog.naver.com/c_18/10179757156
@@ -178,3 +332,4 @@ one hop을 더하는 이유
 
 - https://movefast.tistory.com/55?category=765942
 
+- https://blog.naver.com/demonicws/40108441909
