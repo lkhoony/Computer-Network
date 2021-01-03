@@ -142,6 +142,39 @@ one hop을 더하는 이유
 - A라우터에서 이전의 라우팅 테이블과 Combined
 
 - 같은 네트워크로의 경로가 존재하면 비용이 더 저렴한 경로를 선택
+
+## 5.3. Intra-AS Routing in the Internet : OSPF
+
+### 5.3.1. Making Routing Scalable
+
+- 이전까지의 라우팅 기법은 모두 이상적인 환경을 가정
+
+- 하지만 실제 현실에서는 다음과 같은 문제점이 발생
+
+	- Scale(규모)
+		
+		- 현실에서는 수억개의 목적지(호스트)가 존재
+		
+		- 모든 목적지를 라우팅 테이블에 저장할 수 없음
+		
+		- 이러한 라우팅 테이블 정보 교환은 링크의 대역폭을 고갈시킴
+		
+	- Administrative Autonomy(관리 자치권)
+	
+		- 인터넷은 여러 네트워크의 네트워크로 정의됨
+		
+		- 각 네트워크 관리자들을 각각의 네트워크에서의 라우팅을 제어하길 원함
+
+### 5.3.2. Internet Approach to Scalable Routing
+
+- 라우터들을 Autonomous Systems(AS) 혹은 도메인으로 알려진 영역으로 그룹화 시키는 것으로 문제들을 해결할 수 있다.
+
+- int
 ### 참고
 
 - https://m.blog.naver.com/c_18/10179757156
+
+- https://seokr.tistory.com/136
+
+- https://movefast.tistory.com/55?category=765942
+
