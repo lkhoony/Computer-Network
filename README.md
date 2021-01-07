@@ -8,3 +8,4 @@
 > - __[Chapter03](./Chapter03/chap03.md)__ | __Transport Layer__
 > - __[Chapter04](./Chapter04/chap04.md)__ | __Network Layer : The Data Plane__
 > - __[Chapter05](./Chapter05/chap05.md)__ | __Network Layer : The Control Plane__
+> - __[Chapter06](./Chapter06/chap06.md)__ | __The Link Layer and LANs__
